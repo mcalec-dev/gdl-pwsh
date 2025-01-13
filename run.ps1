@@ -1,8 +1,9 @@
-New-Item -Path $env:Temp\gallery-dl -ItemType Directory -Force | Out-Null
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/testforwt.ps1" -OutFile $env:Temp\gallery-dl\testforwt.ps1 | Out-Null
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/variables.ps1" -OutFile $env:Temp\gallery-dl\variables.ps1 | Out-Null
-Import-Module -Name $env:Temp\gallery-dl\testforwt.ps1 | Out-Null
-Import-Module -Name $env:Temp\gallery-dl\variables.ps1 | Out-Null
+$tempFolder = "$($env:TEMP)\gdl-pwsh"
+New-Item -Path $tempFolder -ItemType Directory -Force | Out-Null | Clear-Host
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/testforwt.ps1" -OutFile $tempFolder\testforwt.ps1 | Out-Null | Clear-Host
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/variables.ps1" -OutFile $tempFolder\variables.ps1 | Out-Null | Clear-Host
+Import-Module -Name $tempFolder\testforwt.ps1
+Import-Module -Name $tempFolder\variables.ps1 | Clear-Host
 function DownloadAll {
   Clear-Host
   $host.UI.RawUI.WindowTitle = "Starting All Downloads"
@@ -201,7 +202,6 @@ function MainMenuText {
   Write-Host ''
 }
 function StartMainMenu {
-  
   do {
     Clear-Host
     MainMenuText

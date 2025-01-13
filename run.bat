@@ -1,7 +1,7 @@
 @echo off
 set CurrentDir=%CD%
 set PsFile=run.ps1
-if exist %ProgramFiles\PowerShell\7-preview\pwsh.exe (
+if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
   tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV > %TMP%\search.log
   FOR /F %%A IN (search.log) DO IF %%~zA EQU 0 GOTO bb
   start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%PsFile%
