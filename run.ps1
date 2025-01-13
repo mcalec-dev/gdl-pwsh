@@ -1,7 +1,7 @@
 $tempFolder = "$($env:TEMP)\gdl-pwsh"
 New-Item -Path $tempFolder -ItemType Directory -Force | Out-Null | Clear-Host
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/testforwt.ps1" -OutFile $tempFolder\testforwt.ps1 | Out-Null | Clear-Host
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/variables.ps1" -OutFile $tempFolder\variables.ps1 | Out-Null | Clear-Host
+Invoke-WebRequest -Uri "https://git.mcalec.dev/gallerydl-pwsh/.modules/testforwt.ps1" -OutFile $tempFolder\testforwt.ps1 | Out-Null | Clear-Host
+Invoke-WebRequest -Uri "https://git.mcalec.dev/gallerydl-pwsh/.modules/variables.ps1" -OutFile $tempFolder\variables.ps1 | Out-Null | Clear-Host
 Import-Module -Name $tempFolder\testforwt.ps1
 Import-Module -Name $tempFolder\variables.ps1 | Clear-Host
 function DownloadAll {
