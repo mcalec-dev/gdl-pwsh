@@ -1,24 +1,8 @@
-Import-Module .\.modules\testforwt.ps1
-Import-Module .\.modules\variables.ps1
-function MainMenuText {
-  Clear-Host
-  $host.UI.RawUI.WindowTitle = "Main Menu - gallery-dl"
-  Write-Host '===================================' 
-  Write-Host '            gallery-dl             ' -ForegroundColor Cyan
-  Write-Host '        PowerShell Script          '
-  Write-Host ''
-  Write-Host '             By McAlec             ' -ForegroundColor Blue
-  Write-Host '==================================='
-  Write-Host ''
-  Write-Host ' [1] Download All                  ' -ForegroundColor DarkGreen
-  Write-Host ' [2] Download Other                ' -ForegroundColor DarkGreen
-  Write-Host ' [3] Check for Updates             ' -ForegroundColor White
-  Write-Host ' [4] Fix Modified Time on All      ' -ForegroundColor White
-  Write-Host ' [?] Help                          ' -ForegroundColor Cyan
-  Write-Host ' [Q] Exit                          ' -ForegroundColor Red
-  Write-Host "`ngallery-dl $($version)           "
-  Write-Host ''
-}
+New-Item -Path $env:Temp\gallery-dl -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/testforwt.ps1" -OutFile $env:Temp\gallery-dl\testforwt.ps1 | Out-Null
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mcalec-dev/gallerydl-pwsh/refs/heads/master/.modules/variables.ps1" -OutFile $env:Temp\gallery-dl\variables.ps1 | Out-Null
+Import-Module -Name $env:Temp\gallery-dl\testforwt.ps1 | Out-Null
+Import-Module -Name $env:Temp\gallery-dl\variables.ps1 | Out-Null
 function DownloadAll {
   Clear-Host
   $host.UI.RawUI.WindowTitle = "Starting All Downloads"
@@ -181,6 +165,41 @@ function DownloadOther {
     }
   } while ($key -ne $otherkeyargs)
 }
+function InstallGalleryDL {
+  Clear-Host
+  $host.UI.RawUI.WindowTitle = "Starting gallery-dl Install"
+  Write-Host "-- Starting gallery-dl Install --" -ForegroundColor DarkGreen
+  Write-Host "Opening elevated PowerShell window..."
+  Start-Process powershell 'winget install mikf.gallery-dl' -Verb runAs -Wait
+  Write-Host "Opening elevated PowerShell window..."
+  Start-Process powershell 'gallery-dl --update' -Verb runAs -Wait
+  Clear-Host
+  Write-Host "-- Finished gallery-dl Install --" -ForegroundColor DarkGreen
+  $host.UI.RawUI.WindowTitle = "Finished gallery-dl Install"
+  Write-Host "Press any key to continue."
+  $host.UI.RawUI.ReadKey()
+  StartMainMenu
+}
+function MainMenuText {
+  Clear-Host
+  $host.UI.RawUI.WindowTitle = "Main Menu - gallery-dl"
+  Write-Host '===================================' 
+  Write-Host '            gallery-dl             ' -ForegroundColor Cyan
+  Write-Host '        PowerShell Script          '
+  Write-Host ''
+  Write-Host '             By McAlec             ' -ForegroundColor Blue
+  Write-Host '==================================='
+  Write-Host ''
+  Write-Host ' [1] Download All                  ' -ForegroundColor DarkGreen
+  Write-Host ' [2] Download Other                ' -ForegroundColor DarkGreen
+  Write-Host ' [3] Check for Updates             ' -ForegroundColor White
+  Write-Host ' [4] Fix Modified Time on All      ' -ForegroundColor White
+  Write-Host ' [0] Install gallery-dl            ' -ForegroundColor Magenta
+  Write-Host ' [?] Help                          ' -ForegroundColor Cyan
+  Write-Host ' [Q] Exit                          ' -ForegroundColor Red
+  Write-Host "`ngallery-dl $($version)           "
+  Write-Host ''
+}
 function StartMainMenu {
   
   do {
@@ -192,6 +211,7 @@ function StartMainMenu {
       "2" { Clear-Host;DownloadOther }
       "3" { Clear-Host;CheckForUpdates }
       "4" { Clear-Host;FixModTime }
+      "0" { Clear-Host;InstallGalleryDL }
       "q" { Clear-Host;ExitScript }
       default { 
         Clear-Host
