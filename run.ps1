@@ -10,6 +10,7 @@ function DownloadAll {
   Write-Host "-- Starting All Downloads --" -ForegroundColor DarkGreen
   BlueskyDL
   DeviantartDL
+  e621DL
   FurAffinityDL
   PatreonDL
   PinterestDL
@@ -37,6 +38,14 @@ function DeviantartDL {
   Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) -i .\deviantart\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Write-Host "-- Finished Deviantart Downloads --" -ForegroundColor DarkGreen
   $host.UI.RawUI.WindowTitle = "Finished Deviantart Downloads"
+}
+function e621DL {
+  Clear-Host
+  $host.UI.RawUI.WindowTitle = "Starting e621 Downloads"
+  Write-Host "-- Starting e621 Downloads --" -ForegroundColor DarkGreen
+  Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) -i .\e621\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
+  Write-Host "-- Finished e621 Downloads --" -ForegroundColor DarkGreen
+  $host.UI.RawUI.WindowTitle = "Finished e621 Downloads"
 }
 function FurAffinityDL {
   Clear-Host
@@ -114,10 +123,11 @@ function FixModTime {
   Write-Host "-- Starting Fixing Downloads --" -ForegroundColor DarkGreen
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\bluesky\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\deviantart\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
+  Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\e621\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\furaffinity\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\patreon\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false $($pinterestfix) -i .\pinterest\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
-  Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\toyhouse\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
+  Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false $($toyhousefix) -i .\toyhouse\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\tumblr\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Start-Process $gallerydl -ArgumentList "--no-download --mtime-from-date -o skip=false -i .\twitter\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
   Write-Host "-- Finished Fixing Downloads --" -ForegroundColor DarkGreen
@@ -131,12 +141,13 @@ function DownloadOtherText {
   $host.UI.RawUI.WindowTitle = "Download Other - gallery-dl"
   Write-Host '[1] Bluesky' -ForegroundColor White
   Write-Host '[2] Deviantart' -ForegroundColor White
-  Write-Host '[3] FurAffinity' -ForegroundColor White
-  Write-Host '[4] Patreon' -ForegroundColor White
-  Write-Host '[5] Pinterest' -ForegroundColor White
-  Write-Host '[6] Toyhouse' -ForegroundColor White
-  Write-Host '[7] Tumblr' -ForegroundColor White
-  Write-Host '[8] Twitter' -ForegroundColor White
+  Write-Host '[3] e621' -ForegroundColor White
+  Write-Host '[4] FurAffinity' -ForegroundColor White
+  Write-Host '[5] Patreon' -ForegroundColor White
+  Write-Host '[6] Pinterest' -ForegroundColor White
+  Write-Host '[7] Toyhouse' -ForegroundColor White
+  Write-Host '[8] Tumblr' -ForegroundColor White
+  Write-Host '[9] Twitter' -ForegroundColor White
   Write-Host '[Q] Go Back' -ForegroundColor Red
   Write-Host ''
 }
@@ -148,12 +159,13 @@ function DownloadOther {
     switch ($key) {
       "1" { Clear-Host;BlueskyDL;DownloadOther }
       "2" { Clear-Host;DeviantartDL;DownloadOther }
-      "3" { Clear-Host;FurAffinityDL;DownloadOther }
-      "4" { Clear-Host;PatreonDL;DownloadOther }
-      "5" { Clear-Host;PinterestDL;DownloadOther }
-      "6" { Clear-Host;ToyhouseDL;DownloadOther }
-      "7" { Clear-Host;TumblrDL;DownloadOther }
-      "8" { Clear-Host;TwitterDL;DownloadOther }
+      "3" { Clear-Host;e621DL;DownloadOther }
+      "4" { Clear-Host;FurAffinityDL;DownloadOther }
+      "5" { Clear-Host;PatreonDL;DownloadOther }
+      "6" { Clear-Host;PinterestDL;DownloadOther }
+      "7" { Clear-Host;ToyhouseDL;DownloadOther }
+      "8" { Clear-Host;TumblrDL;DownloadOther }
+      "9" { Clear-Host;TwitterDL;DownloadOther }
       "q" { Clear-Host;StartMainMenu }
       default { 
         Clear-Host
