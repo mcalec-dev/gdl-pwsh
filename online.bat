@@ -1,10 +1,10 @@
 @echo off
 set CurrentDir=%CD%
-set PsFile=run.ps1
+set FileName=run.ps1
 if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
   :: tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV > %TMP%\search.log
   :: FOR /F %%A IN (search.log) DO IF %%~zA EQU 0 GOTO bb
-  :: start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%PsFile%
+  :: start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%FileName%
   :: exit
   :: :bb
   taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe pwsh -ExecutionPolicy Bypass -Command "iwr https://git.mcalec.dev/gallerydl-pwsh/run.ps1 | iex"
@@ -12,7 +12,7 @@ if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
 ) else if exist %ProgramFiles%\PowerShell\7\pwsh.exe (
   :: tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV > %TMP%\search.log
   :: FOR /F %%A IN (search.log) DO IF %%~zA EQU 0 GOTO bb
-  :: start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%PsFile%
+  :: start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%FileName%
   :: exit
   :: :bb
   taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe pwsh -ExecutionPolicy Bypass -Command "iwr https://git.mcalec.dev/gallerydl-pwsh/run.ps1 | iex"
@@ -20,7 +20,7 @@ if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
 ) else if exist %windir%\System32\WindowsPowerShell\v1.0\powershell.exe (
   :: tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV > %TMP%\search.log
   :: FOR /F %%A IN (search.log) DO IF %%~zA EQU 0 GOTO bb
-  :: start conhost.exe powershell -ExecutionPolicy Bypass -File %CurrentDir%\%PsFile%
+  :: start conhost.exe powershell -ExecutionPolicy Bypass -File %CurrentDir%\%FileName%
   :: exit
   :: :bb
   taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe powershell -ExecutionPolicy Bypass -Command "iwr https://git.mcalec.dev/gallerydl-pwsh/run.ps1 | iex"
