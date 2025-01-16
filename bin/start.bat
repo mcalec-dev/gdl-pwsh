@@ -7,7 +7,7 @@ if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
   :: start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%FileName%
   :: exit
   :: :bb
-  taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe %CurrentDir%\bin\%FileName%
+  taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe %CurrentDir%\%FileName%
   exit
 ) else if exist %ProgramFiles%\PowerShell\7\pwsh.exe (
   :: tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV > %TMP%\search.log
@@ -15,7 +15,7 @@ if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
   :: start conhost.exe pwsh -ExecutionPolicy Bypass -File %CurrentDir%\%FileName%
   :: exit
   :: :bb
-  taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe %CurrentDir%\bin\%FileName%
+  taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe %CurrentDir%\%FileName%
   exit
 ) else if exist %windir%\System32\WindowsPowerShell\v1.0\powershell.exe (
   :: tasklist /FI "IMAGENAME eq WindowsTerminal.exe" /FO CSV > %TMP%\search.log
@@ -23,7 +23,7 @@ if exist %ProgramFiles%\PowerShell\7-preview\pwsh.exe (
   :: start conhost.exe powershell -ExecutionPolicy Bypass -File %CurrentDir%\%FileName%
   :: exit
   :: :bb
-  taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe %CurrentDir%\bin\%FileName%
+  taskkill /IM "WindowsTerminal.exe" /F & start conhost.exe %CurrentDir%\%FileName%
   exit
 ) else (
   echo PowerShell was not found.
