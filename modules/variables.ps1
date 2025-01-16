@@ -18,4 +18,4 @@ $otherkeyargs = '"1" -or "2" -or "3" -or "4" -or "5" -or "6" -or "7" -or "8" -or
 $pinterestfix = '-o "headers.X-Pinterest-PWS-Handler=www/[username].js"'
 $toyhousefix = '-o tls12=false'
 $configloc = "-c $($wd)\.config\config.json"
-$extraconfig = ""
+$extraconfig = "--cookies-from-browser firefox"
