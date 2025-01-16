@@ -1,0 +1,29 @@
+name: compile script
+on: 
+  push: 
+    branches: [master]
+jobs:
+  build:
+    name: Run PSScriptAnalyzer on Windows
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Installing PS2EXE
+        shell: powershell
+        run: |
+          Install-Module -Name ps2exe -Force
+      - name: Importing PS2EXE
+        shell: powershell
+        run: |
+          Import-Module -Name ps2exe
+      - name: Compile Script
+        shell: powershell
+        run: |
+          Invoke-PS2EXE -inputFile .\run.ps1 -outputFile .\bin\gdl-pwsh.exe -title 'gallerydl-pwsh'
+      - name: Push Commit
+        run: |
+          git add gdl-pwsh.exe
+          git commit -m "Compiled Script"
+          git push origin master
