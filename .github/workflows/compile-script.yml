@@ -12,6 +12,8 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install PS2EXE
       shell: powershell
       run: |
@@ -23,9 +25,13 @@ jobs:
     - name: Compile script
       shell: powershell
       run: |
-        Invoke-ps2exe -InputFile run.ps1 -OutputFile "bin/run.exe"
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: compiled-executable
-        path: bin/
+        Invoke-ps2exe -InputFile "run.ps1" -OutputFile "bin/gdl-pwsh.exe"
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+    - name: Commit and push changes
+      run: |
+        git add bin/
+        git commit -m "Auto-compile script to exe" || exit 0
+        git push
