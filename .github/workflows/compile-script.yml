@@ -2,34 +2,44 @@ name: Build PS2EXE
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: windows-latest
+    
     steps:
     - uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN }}
+    
     - name: Install PS2EXE
       shell: powershell
       run: |
         Install-Module -Name ps2exe -Force -Scope CurrentUser
+    
     - name: Create bin directory
       shell: powershell
       run: |
         New-Item -ItemType Directory -Force -Path bin
+    
     - name: Compile script
       shell: powershell
       run: |
-        Invoke-ps2exe -InputFile "run.ps1" -OutputFile "bin/gdl-pwsh.exe"
+        $scriptPath = "YourScript.ps1" # Replace with your script path
+        Invoke-ps2exe -InputFile $scriptPath -OutputFile "bin/YourScript.exe"
+    
     - name: Configure Git
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+    
     - name: Commit and push changes
       run: |
         git add bin/
