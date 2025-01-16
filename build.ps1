@@ -1,2 +1,2 @@
-ps2exe -inputFile '.\run.ps1' -outputFile '.\' -title 'test'
+Invoke-ps2exe -inputFile '.\run.ps1' -outputFile '.\start.exe'
 Pause

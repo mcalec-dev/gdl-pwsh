@@ -1,6 +1,5 @@
-Import-Module -Name .\modules\variables.ps1
 Import-Module -Name .\modules\testforwt.ps1
-Pause
+Import-Module -Name .\modules\variables.ps1
 function DownloadAll {
   Clear-Host
   $host.UI.RawUI.WindowTitle = "Starting All Downloads"
