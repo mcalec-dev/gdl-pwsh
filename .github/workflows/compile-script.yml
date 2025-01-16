@@ -15,9 +15,9 @@ jobs:
         run: |
           Install-Module -Name ps2exe -Force
           Import-Module -Name ps2exe
-          Invoke-PS2EXE -inputFile .\run.ps1 -outputFile .\bin\gdl-pwsh.exe -title 'gallerydl-pwsh'
+          Invoke-PS2EXE -inputFile .\run.ps1 -outputFile .\bin\gdl-pwsh.exe -title 'gallerydl-pwsh' -verbose
       - name: Push Commit
         run: |
-          git add gdl-pwsh.exe
+          git add .
           git commit -m "Compiled Script"
           git push origin master
