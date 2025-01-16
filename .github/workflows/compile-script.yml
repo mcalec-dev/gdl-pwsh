@@ -11,16 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Installing PS2EXE
-        shell: powershell
+        shell: pwsh
         run: |
           Install-Module -Name ps2exe -Force
-      - name: Importing PS2EXE
-        shell: powershell
-        run: |
           Import-Module -Name ps2exe
-      - name: Compile Script
-        shell: powershell
-        run: |
           Invoke-PS2EXE -inputFile .\run.ps1 -outputFile .\bin\gdl-pwsh.exe -title 'gallerydl-pwsh'
       - name: Push Commit
         run: |
