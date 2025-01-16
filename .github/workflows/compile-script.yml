@@ -1,23 +1,31 @@
-name: compile script
-on: 
-  push: 
-    branches: [master]
+name: Build PS2EXE
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
 jobs:
   build:
-    name: Run PSScriptAnalyzer on Windows
     runs-on: windows-latest
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v3
-      - name: Installing PS2EXE
-        shell: pwsh
-        run: |
-          Install-Module -Name ps2exe -Force
-          Import-Module -Name ps2exe
-          Invoke-PS2EXE -inputFile .\run.ps1 -outputFile .\bin\gdl-pwsh.exe -title 'gallerydl-pwsh' -verbose
-      - name: Push Commit
-        run: |
-          git add .
-          git commit -m "Compiled Script"
-          git push origin master
+    - uses: actions/checkout@v4
+    - name: Install PS2EXE
+      shell: powershell
+      run: |
+        Install-Module -Name ps2exe -Force -Scope CurrentUser
+    - name: Create bin directory
+      shell: powershell
+      run: |
+        New-Item -ItemType Directory -Force -Path bin
+    - name: Compile script
+      shell: powershell
+      run: |
+        Invoke-ps2exe -InputFile run.ps1 -OutputFile "bin/run.exe"
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-executable
+        path: bin/
