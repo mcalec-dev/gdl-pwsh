@@ -13,33 +13,26 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    
     steps:
     - uses: actions/checkout@v4
       with:
         token: ${{ secrets.PAT_TOKEN }}
-    
     - name: Install PS2EXE
       shell: powershell
       run: |
         Install-Module -Name ps2exe -Force -Scope CurrentUser
-    
     - name: Create bin directory
       shell: powershell
       run: |
         New-Item -ItemType Directory -Force -Path bin
-    
     - name: Compile script
       shell: powershell
       run: |
-        $scriptPath = "YourScript.ps1" # Replace with your script path
-        Invoke-ps2exe -InputFile $scriptPath -OutputFile "bin/YourScript.exe"
-    
+        Invoke-ps2exe -InputFile "run.ps1" -OutputFile "bin/gdl-pwsh.exe"
     - name: Configure Git
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-    
     - name: Commit and push changes
       run: |
         git add bin/
