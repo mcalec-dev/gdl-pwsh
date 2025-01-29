@@ -37,8 +37,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        $version = Get-Date -Format "yyyy.MM.dd.HHmm"
+        $version = Get-Date -Format "yyyy.MM.dd"
         gh release create "v$version" `
           --title "Release v$version" `
-          --notes "Automated release created by GitHub Actions" `
+          --notes "# Release v$version
+          *Make sure to download both files and run the start.bat file." `
           bin/gdl.exe
+          bin/start.bat
