@@ -132,47 +132,60 @@ function FixModTime {
   Clear-Host
   StartMainMenu
 }
-function DownloadOtherText {
-  Clear-Host
-  $host.UI.RawUI.WindowTitle = "Download Other - gallery-dl"
-  Write-Host '[1] Bluesky' -ForegroundColor White
-  Write-Host '[2] Deviantart' -ForegroundColor White
-  Write-Host '[3] e621' -ForegroundColor White
-  Write-Host '[4] FurAffinity' -ForegroundColor White
-  Write-Host '[5] Patreon' -ForegroundColor White
-  Write-Host '[6] Pinterest' -ForegroundColor White
-  Write-Host '[7] Toyhouse' -ForegroundColor White
-  Write-Host '[8] Tumblr' -ForegroundColor White
-  Write-Host '[9] Twitter' -ForegroundColor White
-  Write-Host '[Q] Go Back' -ForegroundColor Red
-  Write-Host ''
-}
 function DownloadOther {
-  do {
-    Clear-Host
-    DownloadOtherText
-    $key = [System.Console]::ReadKey($true).KeyChar
-    switch ($key) {
-      "1" { Clear-Host;BlueskyDL;DownloadOther }
-      "2" { Clear-Host;DeviantartDL;DownloadOther }
-      "3" { Clear-Host;e621DL;DownloadOther }
-      "4" { Clear-Host;FurAffinityDL;DownloadOther }
-      "5" { Clear-Host;PatreonDL;DownloadOther }
-      "6" { Clear-Host;PinterestDL;DownloadOther }
-      "7" { Clear-Host;ToyhouseDL;DownloadOther }
-      "8" { Clear-Host;TumblrDL;DownloadOther }
-      "9" { Clear-Host;TwitterDL;DownloadOther }
-      "q" { Clear-Host;StartMainMenu }
-      default { 
+  $MainDirResults = Get-ChildItem -Path $wd -Filter "urls.txt" -File
+  $SubDirResults = Get-ChildItem -Path $wd -Directory | 
+  ForEach-Object {
+    Get-ChildItem -Path $_.FullName -Filter "urls.txt" -File
+  }
+  $AllResults = $MainDirResults + $subDirResults
+  if ($AllResults) {
+    while ($true) {
+      Clear-Host
+      Write-Host "Enter a number listed below then press 'Enter'`n" -ForegroundColor DarkGreen
+      # Display numbered menu
+      for ($i = 0; $i -lt $AllResults.Count; $i++) {
+        Write-Host ("[{0}] {1}" -f ($i + 1), $AllResults[$i].FullName) -ForegroundColor White
+      }
+      Write-Host "`[Q] Go Back" -ForegroundColor Red
+      $selection = Read-Host "`nMake a Selection:"
+      if ($selection -eq 'Q' -or $selection -eq 'q') {
+        StartMainMenu
+      }
+      try {
+        $number = [int]$selection
+        if ($number -ge 1 -and $number -le $AllResults.Count) {
+          Clear-Host
+          $host.UI.RawUI.WindowTitle = "Starting Other Downloads"
+          Write-Host "-- Starting Other Downloads --" -ForegroundColor DarkGreen
+          Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) -i $($AllResults[$number - 1])" -WorkingDirectory $wd -NoNewWindow -Wait
+          Write-Host "-- Finished Other Downloads --" -ForegroundColor DarkGreen
+          $host.UI.RawUI.WindowTitle = "Finished Other Downloads"
+          Write-Host "Press any key to continue."
+          $host.UI.RawUI.ReadKey()
+          DownloadOther
+        } else {
+          Clear-Host
+          Write-Host "Invaild Option" -ForegroundColor Red
+          Write-Host "Press any key to continue."
+          $host.UI.RawUI.ReadKey()
+          Clear-Host
+        }
+      } catch {
         Clear-Host
         Write-Host "Invaild Option" -ForegroundColor Red
         Write-Host "Press any key to continue."
         $host.UI.RawUI.ReadKey()
         Clear-Host
-        DownloadOther
       }
     }
-  } while ($key -ne $otherkeyargs)
+  } else {
+    Clear-Host
+    Write-Host "`nNo 'urls.txt' files found in the current directory or subdirectories." -ForegroundColor Red
+    Write-Host "Press any key to continue."
+    $host.UI.RawUI.ReadKey()
+    Clear-Host
+  }
 }
 function InstallGalleryDL {
   Clear-Host

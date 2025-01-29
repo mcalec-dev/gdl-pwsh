@@ -25,7 +25,7 @@ jobs:
     - name: Compile script
       shell: powershell
       run: |
-        Invoke-ps2exe -InputFile "run.ps1" -OutputFile "bin/gdl-pwsh.exe"
+        Invoke-ps2exe -InputFile "run.ps1" -OutputFile "bin/gdl.exe"
     - name: Commit and push changes
       run: |
         git config --global user.name 'github-actions[bot]'
