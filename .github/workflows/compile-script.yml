@@ -33,3 +33,12 @@ jobs:
         git add bin/
         git commit -m "Auto-compile script to exe" || exit 0
         git push origin HEAD:master
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $version = Get-Date -Format "yyyy.MM.dd.HHmm"
+        gh release create "v$version" `
+          --title "Release v$version" `
+          --notes "Automated release created by GitHub Actions" `
+          bin/gdl.exe
