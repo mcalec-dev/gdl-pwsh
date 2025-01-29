@@ -33,14 +33,36 @@ jobs:
         git add bin/
         git commit -m "Auto-compile script to exe" || exit 0
         git push origin HEAD:master
+    - name: Prepare Release Notes
+      shell: powershell
+      run: |
+        $releaseNotes = @"
+        ## Files Included
+        - `gdl.exe` - Main executable (DO NOT RUN THIS)
+        - `start.bat` - Batch file to start executable 
+
+        ## Installation
+        1. Download both `gdl.exe` and `start.bat`
+        2. Place both files in a folder together
+        3. Double-click the `start.bat` file to run the executible
+
+        ## Extra Stuff
+        - Built on: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC")
+        - Commit: $env:GITHUB_SHA
+        "@
+
+        $releaseNotes | Out-File release_notes.md -Encoding UTF8
     - name: Create Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        $version = Get-Date -Format "yyyy.MM.dd"
+        $version = Get-Date -Format "yyyy.MM.dd.HHmm"
+        # Create a ZIP file containing all release assets
+        Compress-Archive -Path "bin/gdl.exe", "bin/start.bat", "release_notes.md" -DestinationPath "release-files.zip" -Force
         gh release create "v$version" `
           --title "Release v$version" `
-          --notes "# Release v$version
-          *Make sure to download both files and run the start.bat file." `
-          bin/gdl.exe
-          bin/start.bat
+          --notes-file "release_notes.md" `
+          "bin/gdl.exe" `
+          "bin/start.bat" `
+          "release_notes.md" `
+          "release-files.zip"
