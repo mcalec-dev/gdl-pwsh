@@ -56,7 +56,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        $version = Get-Date -Format "yyyy.MM.dd.HHmm"
+        $version = Get-Date -Format "yyyy.MM.dd"
         # Create a ZIP file containing all release assets
         Compress-Archive -Path "bin/gdl.exe", "bin/start.bat", "release_notes.md" -DestinationPath "release-files.zip" -Force
         gh release create "v$version" `
@@ -64,5 +64,4 @@ jobs:
           --notes-file "release_notes.md" `
           "bin/gdl.exe" `
           "bin/start.bat" `
-          "release_notes.md" `
           "release-files.zip"
