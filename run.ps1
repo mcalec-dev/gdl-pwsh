@@ -148,7 +148,7 @@ function DownloadOther {
         Write-Host ("[{0}] {1}" -f ($i + 1), $AllResults[$i].FullName) -ForegroundColor White
       }
       Write-Host "`[Q] Go Back" -ForegroundColor Red
-      $selection = Read-Host "`nMake a Selection:"
+      $selection = Read-Host "`nMake a Selection"
       if ($selection -eq 'Q' -or $selection -eq 'q') {
         StartMainMenu
       }
