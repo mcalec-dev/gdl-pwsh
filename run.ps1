@@ -103,9 +103,9 @@ function CheckForUpdates {
   $host.UI.RawUI.WindowTitle = "Starting gallery-dl Update"
   Write-Host "-- Starting gallery-dl Update --" -ForegroundColor DarkGreen
   Write-Host "Opening elevated PowerShell window..."
-  Start-Process powershell 'winget upgrade mikf.gallery-dl' -Verb runAs -Wait
+  Start-Process powershell 'winget.exe upgrade mikf.gallery-dl' -Verb runAs -Wait
   Write-Host "Opening elevated PowerShell window..."
-  Start-Process powershell 'gallery-dl --update' -Verb runAs -Wait
+  Start-Process powershell 'gallery-dl.exe --update' -Verb runAs -Wait
   Clear-Host
   Write-Host "-- Finished gallery-dl Update --" -ForegroundColor DarkGreen
   $host.UI.RawUI.WindowTitle = "Finished gallery-dl Update"
