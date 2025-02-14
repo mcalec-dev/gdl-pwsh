@@ -2,9 +2,11 @@
 
 *gdl-pwsh* is a PowerShell script that uses *gallery-dl* to download image galleries and image hosting sites. The executable is currently only available to Windows.
 
-**P.S. Most of this file was copied from gallery-dl, if you want to see the official documentation check [here](https://github.com/mikf/gallery-dl/blob/master/docs/index.md)**
+**P.S. Most of this file was copied from gallery-dl, if you want to see the official documentation check [here](https://github.com/mikf/gallery-dl/blob/master/docs/index.md).**
 
 ## Dependencies
+
+### Required
 
 - [gallery-dl](https://github.com/mikf/gallery-dl/tree/master?tab=readme-ov-file#installation)
 - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows) 7.5+ (or Windows PowerShell)
@@ -18,7 +20,7 @@
 
 ### Executable
 
-1. Download the latest executable in the releases section or [click here](https://github.com/mcalec-dev/gallerydl-pwsh/releases/latest). It will be callec `gdl.exe` or `gdl-pwsh.exe`. Also, make sure to download the `start.bat` file along with the executable.
+1. Download the latest executable in the releases section or [click here](https://github.com/mcalec-dev/gallerydl-pwsh/releases/latest). It will be called `gdl.exe` or `gdl-pwsh.exe`. Also, make sure to download the `start.bat` file along with the executable.
 2. Put both `gdl-pwsh.exe` and `start.bat` in a folder together. Then run `start.bat`, this should open a command prompt window with the main menu open.
 3. Find the option that says "Download gallery-dl" or similar to download *gallery-dl* from WinGet and update from the source.
 4. Now you should be all good to continue to download your images with the first and second options on the main menu.
