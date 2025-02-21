@@ -143,7 +143,6 @@ function DownloadOther {
     while ($true) {
       Clear-Host
       Write-Host "Enter a number listed below then press 'Enter'`n" -ForegroundColor DarkGreen
-      # Display numbered menu
       for ($i = 0; $i -lt $AllResults.Count; $i++) {
         Write-Host ("[{0}] {1}" -f ($i + 1), $AllResults[$i].FullName) -ForegroundColor White
       }
@@ -155,25 +154,49 @@ function DownloadOther {
       try {
         $number = [int]$selection
         if ($number -ge 1 -and $number -le $AllResults.Count) {
-          Clear-Host
-          $host.UI.RawUI.WindowTitle = "Starting Other Downloads"
-          Write-Host "-- Starting Other Downloads --" -ForegroundColor DarkGreen
-          Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) -i $($AllResults[$number - 1])" -WorkingDirectory $wd -NoNewWindow -Wait
-          Write-Host "-- Finished Other Downloads --" -ForegroundColor DarkGreen
-          $host.UI.RawUI.WindowTitle = "Finished Other Downloads"
-          Write-Host "Press any key to continue."
-          $host.UI.RawUI.ReadKey()
-          DownloadOther
+          #$currentDir = Split-Path (Split-Path $SubDirResults.FullName -Parent) -Leaf
+          $selectedFile = $AllResults[$number - 1]
+          if ($selectedFile.FullName -like '*\toyhouse\*') {
+            Clear-Host
+            $host.UI.RawUI.WindowTitle = "Starting Toyhouse Downloads"
+            Write-Host "-- Starting Toyhouse Downloads --" -ForegroundColor DarkGreen
+            Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) $($toyhousefix) -i .\toyhouse\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
+            Write-Host "-- Finished Toyhouse Downloads --" -ForegroundColor DarkGreen
+            $host.UI.RawUI.WindowTitle = "Finished Toyhouse Downloads"
+            Write-Host "Press any key to continue."
+            $host.UI.RawUI.ReadKey()
+            DownloadOther
+          } elseif ($selectedFile.FullName -like '*\pinterest\*') {
+            Clear-Host
+            $host.UI.RawUI.WindowTitle = "Starting Pinterest Downloads"
+            Write-Host "-- Starting Pinterest Downloads --" -ForegroundColor DarkGreen
+            Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) $($pinterestfix) -i .\pinterest\urls.txt" -WorkingDirectory $wd -NoNewWindow -Wait
+            Write-Host "-- Finished Pinterest Downloads --" -ForegroundColor DarkGreen
+            $host.UI.RawUI.WindowTitle = "Finished Pinterest Downloads"
+            Write-Host "Press any key to continue."
+            $host.UI.RawUI.ReadKey()
+            DownloadOther
+          } else {
+            Clear-Host
+            $host.UI.RawUI.WindowTitle = "Starting Other Downloads"
+            Write-Host "-- Starting Other Downloads --" -ForegroundColor DarkGreen
+            Start-Process $gallerydl -ArgumentList "$($configloc) $($extraconfig) -i $($AllResults[$number - 1])" -WorkingDirectory $wd -NoNewWindow -Wait
+            Write-Host "-- Finished Other Downloads --" -ForegroundColor DarkGreen
+            $host.UI.RawUI.WindowTitle = "Finished Other Downloads"
+            Write-Host "Press any key to continue."
+            $host.UI.RawUI.ReadKey()
+            DownloadOther
+          }
         } else {
           Clear-Host
-          Write-Host "Invaild Option" -ForegroundColor Red
+          Write-Host "Invalid Option" -ForegroundColor Red
           Write-Host "Press any key to continue."
           $host.UI.RawUI.ReadKey()
           Clear-Host
         }
       } catch {
         Clear-Host
-        Write-Host "Invaild Option" -ForegroundColor Red
+        Write-Host "Invalid Option" -ForegroundColor Red
         Write-Host "Press any key to continue."
         $host.UI.RawUI.ReadKey()
         Clear-Host
@@ -236,7 +259,7 @@ function StartMainMenu {
       "q" { Clear-Host;ExitScript }
       default { 
         Clear-Host
-        Write-Host "Invaild Option" -ForegroundColor Red
+        Write-Host "Invalid Option" -ForegroundColor Red
         Write-Host "Press any key to continue."
         $host.UI.RawUI.ReadKey()
         Clear-Host
